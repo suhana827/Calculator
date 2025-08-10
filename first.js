@@ -33,8 +33,8 @@ display.style.fontSize = "2em";
 display.style.padding = "10px";
 display.style.borderRadius = "5px";
 display.style.textAlign = "right";
-display.style.marginBottom = "15px";
-display.style.marginTop = "10px"
+display.style.marginBottom = "25px";
+display.style.marginTop = "17px"
 display.style.minHeight = "75px";
 
 
@@ -60,30 +60,35 @@ historyBox.style.maxHeight = "60px";
 historyBox.style.overflowY = "auto";
 
 
+
 const buttonLabels = [
     '7','8','9','/',
     '4','5','6','*',
     '1','2','3','-',
-    '0','.','+','⌫',
-    'C','AC','=',
+    '0','.','⌫','+',
+    'C','AC','='
 ];
 
+// Create buttons
 buttonLabels.forEach(label => {
     const btn = document.createElement("button");
     btn.textContent = label;
-    if(["+","-","*","/"].includes(label)) btn.classList.add("operator");
-    if(label === "=") btn.classList.add("equal");
-    if(label === "C") btn.classList.add("clear-display");
-    if(label === "AC") btn.classList.add("clear-all");
+
+    if (["+", "-", "*", "/"].includes(label)) btn.classList.add("operator");
+    if (label === "=") btn.classList.add("equal");
+    if (label === "C") btn.classList.add("clear-display");
+    if (label === "AC") btn.classList.add("clear-all");
+    if (label === ".") btn.classList.add("dot");
+
     buttonContainer.appendChild(btn);
 });
 
-
+// Body style
 document.body.style.fontFamily = "Arial, sans-serif";
 document.body.style.background = "#D6DAC8";
 document.body.style.margin = "0";
 
-
+// Select all buttons
 const buttons = document.querySelectorAll("#buttons button");
 buttons.forEach(btn => {
     btn.style.padding = "15px";
@@ -97,27 +102,35 @@ buttons.forEach(btn => {
         btn.style.color = "white";
         btn.style.fontSize = "2rem";
     } else if (btn.classList.contains("equal")) {
-        btn.style.background = "#4caf50";
+        btn.style.background = "orange";
         btn.style.fontSize = "2rem";
         btn.style.color = "white";
-        btn.style.gridColumn = "span 2";
+        btn.style.gridColumn = "span 1.7";
     } else if (btn.classList.contains("clear-display")) {
-        btn.style.background = "#f44336";
-        btn.style.color = "white";
+        btn.style.background = "white";
+        btn.style.color = "black";
     } else if (btn.classList.contains("clear-all")) {
-        btn.style.background = "#9c27b0";
-        btn.style.color = "white";
+        btn.style.background = "white";
+        btn.style.color = "black";
     } else {
         btn.style.background = "white";
     }
 
-    btn.addEventListener("mouseover", () => btn.style.opacity = "0.85");
-    btn.addEventListener("mouseout", () => btn.style.opacity = "1");
-    btn.addEventListener("mousedown", () => btn.style.transform = "scale(0.95)");
-    btn.addEventListener("mouseup", () => btn.style.transform = "scale(1)");
-});
+    btn.addEventListener("mouseover", () => {
+        btn.style.opacity = "0.9";   // Slightly dim
+        btn.style.transform = "scale(1.05)"; // Slight lift
+    });
+    
+    btn.addEventListener("mouseout", () => {
+        btn.style.opacity = "1";
+        btn.style.transform = "scale(1)";
+    });
+
+})
 
 
+
+// functionality
 
 let currentInput = "";
 let history = JSON.parse(localStorage.getItem("calcHistory")) || [];
@@ -155,7 +168,7 @@ function handleButtonClick(value) {
     } else if (value === "⌫") {
         currentInput = currentInput.slice(0, -1);
     } else {
-        currentInput += value;
+        currentInput += value
     }
     updateDisplay();
 }
